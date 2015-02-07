@@ -29,8 +29,7 @@
     <div class="demo-container">
       <div id="rectangle"></div>
       <video id="video" width="800" height="530" preload autoplay loop muted controls>
-        <source src="assets/minions.mp4" type="video/mp4">
-        <source src="assets/minions.ogv" type="video/ogg">
+        <source src="assets/WOMBO COMBO.mp4" type="video/mp4">
       </video>
       <canvas id="canvas" width="800" height="500"></canvas>
     </div>
@@ -51,8 +50,14 @@
         }
         return dx * dx + dy * dy + dz * dz < 3500;
       });
+	  
+	  tracking.ColorTracker.registerColor('neutral', function(r, g, b){
+		if(r == 255 && g == 0 && b < 50){
+			return true;
+		}
+	  });
 
-      var tracker = new tracking.ColorTracker(['yellow', 'purple']);
+      var tracker = new tracking.ColorTracker(['cyan', 'magenta']);
       tracker.setMinDimension(5);
 
       tracking.track('#video', tracker);

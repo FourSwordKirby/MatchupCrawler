@@ -10,6 +10,19 @@
   <script>
   var colors = new tracking.ColorTracker(['magenta', 'cyan', 'yellow']);
 
+  var myTracker = new tracking.Tracker('target');
+  
+	myTracker.on('track', function(event)){
+	if(event.data.length === 0)
+	{
+		//We didn't see anything
+	}else{
+		event.data.forEach(function(data){
+			//this function will plot any targets detected
+		});
+	}
+  }
+  /*
   colors.on('track', function(event) {
     if (event.data.length === 0) {
       // No colors were detected in this frame.
@@ -19,9 +32,11 @@
       });
     }
   });
+  */
 
   tracking.track('#myVideo', colors);
   </script>
 </body>
 </html>
+
 
