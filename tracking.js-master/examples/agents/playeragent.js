@@ -69,10 +69,22 @@ function makeRectangle(context, rect, p, state, RGB){
     var font = 14;
     context.font = font + 'px Helvetica';
     context.lineWidth = 5;
-    context.fillStyle = "#fff";
+    context.fillStyle = color;
     context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
     context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 11 + font);
-    context.fillText(p + " is " + state, rect.x + rect.width + 5, rect.y + 11 + 2 * font);
+    
+    font = 25
+    if (state == "default"){
+        return;
+    }else if(state == "knockdown"){
+        context.font = "bold " + font + "px Helvetica";
+        context.fillStyle = " red";
+        context.fillText("Knockdown!", rect.x + rect.width, rect.y - font);
+    }else if(state == "invincible"){
+        context.font = "italic " + font + "px Helvetica";
+        context.fillStyle = "blue";
+        context.fillText("Invincible", rect.x + rect.width, rect.y - font);    
+    }
 }
 
 function shouldAnalyze(n){
