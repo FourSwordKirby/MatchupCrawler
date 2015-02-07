@@ -68,10 +68,10 @@
         var knockdown2b = 40;
     
         var player1 = new Player;
-        player1.name = "player1";
+        player1.name = "Player 1";
         
         var player2 = new Player;
-        player2.name = "player2";
+        player2.name = "Player 2";
         
         players = [player1, player2];
         
@@ -108,57 +108,76 @@
 
         tracker.on('track', function(event) {
             context.clearRect(0, 0, canvas.width, canvas.height);
-
+            
+            var maxP1RectArea = 0;
+            var p1State;
+            var p1Rect;
+            
+            var maxP2RectArea = 0;
+            var p2State;
+            var p2Rect;
+            
             event.data.forEach(function(rect) {
                 var p = ""
                 var state = ""
                 if (rect.color === 'p1') {
-                    playerUpdatePosition(player1, rect, 'default');
-                    p = "p1"
-                    state = "default"
+                    if (rect.width * rect.height > maxP1RectArea){
+                        maxP1RectArea = rect.width * rect.height;
+                        p1State = "default";
+                        p1Rect = rect;
+                    }
                 }
                 
                 if (rect.color == 'knockdown1'){
-                    playerUpdatePosition(player1, rect, 'knockdown');
-                    
-                    p = "p1"
-                    state = "knockdown!"
+                    if (rect.width * rect.height > maxP1RectArea){
+                        maxP1RectArea = rect.width * rect.height;
+                        p1State = "knockdown";
+                        p1Rect = rect;
+                    }
                 }
                 
                 if (rect.color == 'invincible1'){
-                    playerUpdatePosition(player1, rect, 'invincible');
-                    p = "p1";
-                    state = "invincible!";
+                    if (rect.width * rect.height > maxP1RectArea){
+                        maxP1RectArea = rect.width * rect.height;
+                        p1State = "invincible";
+                        p1Rect = rect;
+                    }
                 }
                 
                 if (rect.color == 'p2'){
-                    playerUpdatePosition(player2, rect, 'default');
-                    p = "p2";
-                    state = "default";
+                    if (rect.width * rect.height > maxP2RectArea){
+                        maxP2RectArea = rect.width * rect.height;
+                        p2State = "default";
+                        p2Rect = rect;
+                    }
                 }
                 
                 if (rect.color == 'knockdown2'){
-                    playerUpdatePosition(player2, rect, 'knockdown');
-                    
-                    p = "p2";
-                    state = "knockdown";
+                    if (rect.width * rect.height > maxP2RectArea){
+                        maxP2RectArea = rect.width * rect.height;
+                        p2State = "knockdown";
+                        p2Rect = rect;
+                    }
                 }
                 
                 if (rect.color == 'invincible2'){
-                    playerUpdatePosition(player2, rect, 'invincible');
-                    p = "p2";
-                    state = "invincible!";
+                    if (rect.width * rect.height > maxP2RectArea){
+                        maxP2RectArea = rect.width * rect.height;
+                        p2State = "invincible";
+                        p2Rect = rect;
+                    }
                 }
 
-                context.strokeStyle = rect.color;
-                context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-                var font = 14;
-                context.font = font + 'px Helvetica';
-                context.fillStyle = "#fff";
-                context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
-                context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 11 + font);
-                context.fillText(p + " is " + state, rect.x + rect.width + 5, rect.y + 11 + 2 * font);
             });
+            if (maxP1RectArea > 0){
+                playerUpdatePosition(player1, p1Rect, p1State);
+                makeRectangle(context, p1Rect, player1.name, p1State);
+            }
+            if (maxP2RectArea > 0){
+                playerUpdatePosition(player2, p2Rect, p2State);
+                makeRectangle(context, p2Rect, player2.name, p1State);
+            }
+
         });
 
         initGUIControllers(tracker);

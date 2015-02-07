@@ -52,6 +52,17 @@ function getReadings(player, n){
     return readings;
 }
 
+function makeRectangle(context, rect, p, state){ 
+    context.strokeStyle = rect.color;
+    context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+    var font = 14;
+    context.font = font + 'px Helvetica';
+    context.fillStyle = "#fff";
+    context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+    context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 11 + font);
+    context.fillText(p + " is " + state, rect.x + rect.width + 5, rect.y + 11 + 2 * font);
+}
+
 function determinePlayer(rect){//if needed
     for (var i = 0; i < players.length; i++){
         return;
