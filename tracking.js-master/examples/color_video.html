@@ -21,22 +21,23 @@
     position: absolute;
   }
   </style>
+  
 </head>
 <body>
-  <div class="demo-title">
-    <p><a href="http://trackingjs.com" target="_parent">tracking.js</a> － detect certain colors in a video</p>
-  </div>
-
-  <div class="demo-frame">
-    <div class="demo-container">
-      <div id="rectangle"></div>
+    <table>
+    <tr><td width="800">
+      <span id="rectangle"></div>
       <video id="video" width="800" height="530" preload autoplay loop muted controls>
         <source src="assets/testrun2.mp4" type="video/mp4">
       </video>
       <canvas id="canvas" width="800" height="500"></canvas>
-    </div>
-  </div>
-
+      </span></td>
+      <td>
+      <p id="p1techs">Player 1 Techs: 0</p>
+      <p id="p2techs">Player 2 Techs: 0</p>
+      </td>
+      </tr>
+      </table>
   <script>
     window.onload = function() {
         var canvas = document.getElementById('canvas');

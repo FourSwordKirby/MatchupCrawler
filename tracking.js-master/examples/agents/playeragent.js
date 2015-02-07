@@ -23,6 +23,14 @@ function Reading(type){
     this.time;
 }
 
+        
+function updateInfo(){
+    document.getElementById("p1techs").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsright)
+    
+    
+    document.getElementById("p2techs").innerHTML = "Player 2 Techs: " + (players[1].techsinplace + players[1].techsleft + players[1].techsright)
+}
+
 function playerUpdatePosition(player, rect, state){
     player.xPositions[player.xPositions.length] = rect.x;
     player.yPositions[player.yPositions.length] = rect.y;
@@ -36,6 +44,7 @@ function playerUpdatePosition(player, rect, state){
         player.timeStamps.splice(0, 1);
         player.states.splice(0, 1);
     }
+    updateInfo();
 }
 
 function checkColorInBounds(RGB, r2, g2, b2, leniency){
@@ -100,6 +109,7 @@ function shouldAnalyze(inAnalysis){
         return players[0];
     }
 		
+
 /*    if (players[0].xPositions.length < n){
         return;
     }
