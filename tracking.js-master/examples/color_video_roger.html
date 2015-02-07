@@ -9,6 +9,9 @@
   <script src="../../dat-gui/build/dat.gui.min.js"></script>
   <script src="assets/stats.min.js"></script>
   <script src="assets/color_camera_gui.js"></script>
+  
+  
+  <script src="agents/pacman.js"></script>
 
   <style>
   .demo-container {
@@ -28,8 +31,9 @@
   <div class="demo-frame">
     <div class="demo-container">
       <div id="rectangle"></div>
-      <video id="video" width="800" height="530" preload autoplay loop muted controls>
-        <source src="assets/WOMBO COMBO.mp4" type="video/mp4">
+      <video id="video" width="800" height="530" preload autoplay muted controls>
+        <!-- <source src="assets/WOMBO COMBO.mp4" type="video/mp4"> -->
+		<source src="assets/pacman.mp4" type="video/mp4">
       </video>
       <canvas id="canvas" width="800" height="500"></canvas>
     </div>
@@ -51,25 +55,36 @@
         return dx * dx + dy * dy + dz * dz < 3500;
       });
 	  
-	  tracking.ColorTracker.registerColor('neutral', function(r, g, b){
-		if(r == 255 && g == 0 && b < 50){
-			return true;
-		}
-	  });
+	  tracking.ColorTracker.registerColor('yellow', function(r, g, b) {
+        if (220 < r && 220 < g && b < 50){
+            return true;
+        }
+      });
 
-      var tracker = new tracking.ColorTracker(['cyan', 'magenta']);
+      tracking.ColorTracker.registerColor('blue', function(r, g, b) {
+        if (r < 40 && g < 80 && b > 230){
+            return true;
+        }
+      });
+
+      var tracker = new tracking.ColorTracker(['yellow', 'blue']);
       tracker.setMinDimension(5);
 
       tracking.track('#video', tracker);
-
-      tracker.on('track', function(event) {
+      
+	  
+	  
+	  
+	  tracker.on('track', function(event) {
+	  
         context.clearRect(0, 0, canvas.width, canvas.height);
-
+	
         event.data.forEach(function(rect) {
-          if (rect.color === 'cyan') {
+			pacman.myFoo(rect);
+//          if (rect.color === 'magenta') {
             //rect.color = tracker.customColor;
-			alert(rect.color);
-          }
+		//	console.log("COMBO")
+//          }
 
           context.strokeStyle = rect.color;
           context.strokeRect(rect.x, rect.y, rect.width, rect.height);
