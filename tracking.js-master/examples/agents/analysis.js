@@ -55,20 +55,45 @@ function getRecoverType(player)
     return "nothing";
 }
 
-function getSituation (player1, player2, stage)
+function getSituation (player1, player2, stage_rects)
 {
-	var stage_width = stage.width;
+	var main_stage = stage_rects[0];
+	
 	var player_status_1 = getReadings(player1, 1)[0];
 	var player_status_2 = getReadings(player2, 1)[0];
 	
-	/*var onPlatform = 
-	var inCorner = 
-	var centerStage = 
-	*/
-	
-	if(player_status_1 != null && player_status_2 != null)
+	function onPlatform(player_status)
 	{
-		;
+		player_status.y < (main_stage.y + 2*player_status.height);
+	}
+	
+	function inCorner(player_status) 
+	{
+		var leftCorner = ((player_status.x - main_stage.x)  < (main_stage.width/5) 
+						&& (player_status.x - main_stage.x)  > 0);
+		var rightCorner = ((main_stage.x + main_stage.width -player_status.x)  < (main_stage.width/6) 
+						&& (main_stage.x + main_stage.width  - player_status.x)  > 0);
+						
+		return leftCorner || rightCorner;
+	}
+	
+	function centerStage(player_status) 
+	{
+		var onStage = ((player_status.x - main_stage.x)  > (main_stage.width/3) &&
+						(main_stage.x - player_status.x)  < (main_stage.width/3))
+						
+		return console.log("on stage")
+	}
+	
+	if(player_status_1 != null)
+	{
+		//console.log("getting called");
+		//console.log(main_stage.width);
+		
+		if(inCorner(player_status_1))
+			return "cornered";
+		if(centerStage(player_status_1))
+			return "onStage";
 	}
 }
 
