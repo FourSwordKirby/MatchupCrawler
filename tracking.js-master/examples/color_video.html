@@ -7,7 +7,6 @@
 
   <script src="../build/tracking-min.js"></script>
   <script src="../../dat-gui/build/dat.gui.min.js"></script>
-  <script src="assets/stats.min.js"></script>
   <script src="assets/color_camera_gui.js"></script>
   <script src="agents/playeragent.js"></script>
   <script src="agents/analysis.js"></script>
@@ -200,7 +199,7 @@
                 if (msg = getRecoverType(analyzedPlayer)){
                     console.log(msg);
 					
-					if(msg != "finished")
+					if(msg != "nothing")
 					{
 						inAnalysis = false;
 					}

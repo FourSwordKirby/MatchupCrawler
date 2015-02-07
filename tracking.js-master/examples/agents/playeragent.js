@@ -25,16 +25,15 @@ function Reading(type){
 
         
 function updateInfo(){
-    document.getElementById("stat1").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsright)
-    
-    document.getElementById("stat2").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsright)
-    
-    document.getElementById("stat3").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsright)
-    
-    document.getElementById("stat4").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsright)
-    
-    document.getElementById("stat5").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsright)
-    document.getElementById("stat6").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsright)
+    document.getElementById("stat1").innerHTML = "Player 1 Techs: " + (players[0].techsinplace);
+	document.getElementById("stat1").innerHTML = "Player 1 Techs: " + (players[0].techsleft);
+	document.getElementById("stat1").innerHTML = "Player 1 Techs: " + (players[0].techsright);
+    /*document.getElementById("stat2").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsinplace);
+    document.getElementById("stat3").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsinplace);
+    document.getElementById("stat4").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsinplace);
+    document.getElementById("stat5").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsinplace);
+    document.getElementById("stat6").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsinplace);
+	*/
 }
 
 function playerUpdatePosition(player, rect, state){
