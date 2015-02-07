@@ -9,6 +9,7 @@
   <script src="../../dat-gui/build/dat.gui.min.js"></script>
   <script src="assets/stats.min.js"></script>
   <script src="assets/color_camera_gui.js"></script>
+  <script src="chris.js"></script>
 
   <style>
   .demo-container {
@@ -29,7 +30,7 @@
     <div class="demo-container">
       <div id="rectangle"></div>
       <video id="video" width="800" height="530" preload autoplay loop muted controls>
-        <source src="assets/WOMBO COMBO.mp4" type="video/mp4">
+        <source src="assets/pacman.mp4" type="video/mp4">
       </video>
       <canvas id="canvas" width="800" height="500"></canvas>
     </div>
@@ -37,51 +38,83 @@
 
   <script>
     window.onload = function() {
-      var canvas = document.getElementById('canvas');
-      var context = canvas.getContext('2d');
-
-      tracking.ColorTracker.registerColor('purple', function(r, g, b) {
-        var dx = r - 120;
-        var dy = g - 60;
-        var dz = b - 210;
-
-        if ((b - g) >= 100 && (r - g) >= 60) {
-          return true;
-        }
-        return dx * dx + dy * dy + dz * dz < 3500;
-      });
-	  
-	  tracking.ColorTracker.registerColor('neutral', function(r, g, b){
-		if(r == 255 && g == 0 && b < 50){
-			return true;
-		}
-	  });
-
-      var tracker = new tracking.ColorTracker(['cyan', 'magenta']);
-      tracker.setMinDimension(5);
-
-      tracking.track('#video', tracker);
-
-      tracker.on('track', function(event) {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        event.data.forEach(function(rect) {
-          if (rect.color === 'cyan') {
-            //rect.color = tracker.customColor;
-          }
-
-          context.strokeStyle = rect.color;
-          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-          context.font = '11px Helvetica';
-          context.fillStyle = "#fff";
-          context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
-          context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        
+        var leniency = 30;
+        
+        var p1r = 0;
+        var p1g = 255;
+        var p1b = 0;
+        
+        var p2r = 255;
+        var p2g = 0;
+        var p2b = 255;
+        
+        var invincr = 20; //?
+        var invincg = 20; //?
+        var invincb = 240;//?
+        
+        var knockdownr = 240; //?
+        var knockdowng = 150; //?
+        var knockdownb = 0; //?
+    
+        var player1 = new Player;
+        player1.name = "player1";
+        
+        var player2 = new Player;
+        player2.name = "player2";
+        
+        tracking.ColorTracker.registerColor('p1', function(r, g, b) {
+            return checkColorInBounds(p1r, p1g, p1b, r, g, b, leniency);
         });
-      });
 
-      initGUIControllers(tracker);
+        tracking.ColorTracker.registerColor('p2', function(r, g, b) {
+            return checkColorInBounds(p2r, p2g, p2b, r, g, b, leniency);
+        });
+        
+        tracking.ColorTracker.registerColor('knockdown', function(r, g, b) {
+            return checkColorInBounds(knockdownr, knockdowng, knockdownb, r, g, b, leniency);
+        });
+        
+        tracking.ColorTracker.registerColor('invincible', function(r, g, b) {
+            return checkColorInBounds(invincr, invincg, invincb, r, g, b, leniency);
+        });
+      
+        var tracker = new tracking.ColorTracker(['p1', 'p2']);
+        tracker.setMinDimension(5);
+      
+        tracking.track('#video', tracker);
+      
+        //player instances
+        var pacman = new Player;
+        pacman.name = "pacman";
+
+
+        tracker.on('track', function(event) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            event.data.forEach(function(rect) {
+                if (rect.color === 'yellow') {//pacman
+                    playerUpdatePosition(pacman, rect);
+                    console.log(pacman.xPositions);
+                }
+                if (rect.color == 'blue'){
+                    return;
+                }
+
+                context.strokeStyle = rect.color;
+                context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+                context.font = '11px Helvetica';
+                context.fillStyle = "#fff";
+                context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+                context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+            });
+        });
+
+        initGUIControllers(tracker);
     };
-  </script>
+    </script>
 
 </body>
 </html>
