@@ -41,8 +41,7 @@
       var canvas = document.getElementById('canvas');
       var context = canvas.getContext('2d');
 
-     
-	  
+
       tracking.ColorTracker.registerColor('yellow', function(r, g, b) {
         if (220 < r && 220 < g && b < 50){
             return true;
@@ -60,15 +59,18 @@
       
       tracking.track('#video', tracker);
       
-
+      //player instances
+      var pacman = new Player;
+      pacman.name = "pacman";
 
 
       tracker.on('track', function(event) {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         event.data.forEach(function(rect) {
-          if (rect.color === 'yellow') {
-            myFoo(rect);
+          if (rect.color === 'yellow') {//pacman
+            playerUpdatePosition(pacman, rect);
+            console.log(pacman.xPositions);
           }
           if (rect.color == 'blue'){
             myBar(rect);
