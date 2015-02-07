@@ -12,9 +12,9 @@ function Player(type){
 function playerUpdatePosition(player, rect){
     player.xPositions[player.xPositions.length] = rect.x;
     player.yPositions[player.yPositions.length] = rect.y;
-    var d = new Date();
-    var time = d.getTime();
-    player.timeStamps[player.timeStamps.length] = time;
+    //var d = new Date();
+    //var time = d.getTime();
+    //player.timeStamps[player.timeStamps.length] = time;
     if (player.xPositions.length > positionMaxLength){
         player.xPositions.splice(0, 1);
         player.yPositions.splice(0, 1);

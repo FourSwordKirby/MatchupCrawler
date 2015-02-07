@@ -68,6 +68,7 @@
         players = [player1, player2];
         
         tracking.ColorTracker.registerColor('p1', function(r, g, b) {
+            console.log("p1 found");
             return checkColorInBounds(p1r, p1g, p1b, r, g, b, leniency);
         });
 
