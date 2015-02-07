@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>tracking.js - color with video</title>
+  <link rel="stylesheet" href="assets/demo.css">
+
+  <script src="../build/tracking-min.js"></script>
+  <script src="../../dat-gui/build/dat.gui.min.js"></script>
+  <script src="assets/stats.min.js"></script>
+  <script src="assets/color_camera_gui.js"></script>
+  <script src="chris.js"></script>
+
+  <style>
+  .demo-container {
+    background-color: black;
+  }
+
+  video, canvas {
+    position: absolute;
+  }
+  </style>
+</head>
+<body>
+  <div class="demo-title">
+    <p><a href="http://trackingjs.com" target="_parent">tracking.js</a> － detect certain colors in a video</p>
+  </div>
+
+  <div class="demo-frame">
+    <div class="demo-container">
+      <div id="rectangle"></div>
+      <video id="video" width="800" height="530" preload autoplay loop muted controls>
+        <source src="assets/pacman.mp4" type="video/mp4">
+      </video>
+      <canvas id="canvas" width="800" height="500"></canvas>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+
+     
+	  
+      tracking.ColorTracker.registerColor('yellow', function(r, g, b) {
+        if (220 < r && 220 < g && b < 50){
+            return true;
+        }
+      });
+
+      tracking.ColorTracker.registerColor('blue', function(r, g, b) {
+        if (r < 40 && g < 80 && b > 230){
+            return true;
+        }
+      });
+      
+      var tracker = new tracking.ColorTracker(['yellow', 'blue']);
+      tracker.setMinDimension(5);
+      
+      tracking.track('#video', tracker);
+      
+
+
+
+      tracker.on('track', function(event) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        event.data.forEach(function(rect) {
+          if (rect.color === 'yellow') {
+            myFoo(rect);
+          }
+          if (rect.color == 'blue'){
+            myBar(rect);
+          }
+
+          context.strokeStyle = rect.color;
+          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+          context.font = '11px Helvetica';
+          context.fillStyle = "#fff";
+          context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+          context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+        });
+      });
+
+      initGUIControllers(tracker);
+    };
+  </script>
+
+</body>
+</html>
