@@ -1,7 +1,7 @@
 var lookback = 5; 
 
-var TECH_WINDOW = 700; //Note this is the tech window timing
-var ROLL_WINDOW = 40; //Note this is the distance to register as a roll
+var TECH_WINDOW = 400; //Note this is the tech window timing
+var ROLL_WINDOW = 30; //Note this is the distance to register as a roll
 
 function getReadingsUpToLastKnockdown(player)
 {

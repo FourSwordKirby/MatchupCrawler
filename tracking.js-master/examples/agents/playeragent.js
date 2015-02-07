@@ -79,11 +79,11 @@ function makeRectangle(context, rect, p, state, RGB){
     }else if(state == "knockdown"){
         context.font = "bold " + font + "px Helvetica";
         context.fillStyle = " red";
-        context.fillText("Knockdown!", rect.x + rect.width, rect.y - font);
+        context.fillText("Knockdown!", rect.x, rect.y - font);
     }else if(state == "invincible"){
         context.font = "italic " + font + "px Helvetica";
         context.fillStyle = "blue";
-        context.fillText("Invincible", rect.x + rect.width, rect.y - font);    
+        context.fillText("Invincible", rect.x, rect.y - font);    
     }
 }
 
