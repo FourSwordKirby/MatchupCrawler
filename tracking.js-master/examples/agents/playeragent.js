@@ -31,7 +31,10 @@ function playerUpdatePosition(player, rect, state){
     }   
 }
 
-function checkColorInBounds(r1, g1, b1, r2, g2, b2, leniency){
+function checkColorInBounds(RGB, r2, g2, b2, leniency){
+    var r1 = RGB[0];
+    var g1 = RGB[1];
+    var b1 = RGB[2]
     return (Math.abs(r1 - r2) < leniency && Math.abs(g1 - g2) < leniency && Math.abs(b1 - b2) < leniency);
 }
 
@@ -52,8 +55,9 @@ function getReadings(player, n){
     return readings;
 }
 
-function makeRectangle(context, rect, p, state){ 
-    context.strokeStyle = rect.color;
+function makeRectangle(context, rect, p, state, RGB){
+    var color = "#" + RGB[0].toString(16) + RGB[1].toString(16) + RGB[2].toString(16);
+    context.strokeStyle = color;
     context.strokeRect(rect.x, rect.y, rect.width, rect.height);
     var font = 14;
     context.font = font + 'px Helvetica';
