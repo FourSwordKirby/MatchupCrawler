@@ -14,6 +14,8 @@ function Player(type){
     this.rollsright = 0;
     this.rollsleft = 0;
     
+	this.righttime = 0;
+	this.lefttime = 0;
 }
 
 function Reading(type){
@@ -26,14 +28,11 @@ function Reading(type){
         
 function updateInfo(){
     document.getElementById("stat1").innerHTML = "Player 1 Techs: " + (players[0].techsinplace);
-	document.getElementById("stat1").innerHTML = "Player 1 Techs: " + (players[0].techsleft);
-	document.getElementById("stat1").innerHTML = "Player 1 Techs: " + (players[0].techsright);
-    /*document.getElementById("stat2").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsinplace);
-    document.getElementById("stat3").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsinplace);
-    document.getElementById("stat4").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsinplace);
-    document.getElementById("stat5").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsinplace);
-    document.getElementById("stat6").innerHTML = "Player 1 Techs: " + (players[0].techsinplace + players[0].techsleft + players[0].techsinplace);
-	*/
+	document.getElementById("stat2").innerHTML = "Player 1 LeftTime: " + (players[0].lefttime);
+	document.getElementById("stat3").innerHTML = "Player 1 RightTime: " + (players[0].righttime);
+	document.getElementById("stat4").innerHTML = "Player 1 Regular Get Ups: " + (players[0].regulars);
+    document.getElementById("stat5").innerHTML = "Player 1 Left Techs: " + (players[0].techsleft);
+    document.getElementById("stat6").innerHTML = "Player 1 Right Techs: " + (players[0].techsright);
 }
 
 function playerUpdatePosition(player, rect, state){

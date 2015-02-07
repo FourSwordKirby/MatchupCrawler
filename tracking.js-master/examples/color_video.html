@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>MatchupCrawler</title>
+  <title>ProjectManalyzer</title>
   <link rel="stylesheet" href="assets/demo.css">
 
   <script src="../build/tracking-min.js"></script>
@@ -121,6 +121,8 @@
             var p2Rect;
             var p2RectRGB = [0, 0, 0];
             
+			var latesttime = 
+			
             event.data.forEach(function(rect) {
                 
 				if(rect.color == 'stage'){
@@ -222,11 +224,20 @@
                 }
             }
 			
+			
 			var situation
 			if(situation = getSituation(player1, player2, stage_rects))
 			{
-				console.log(situation);
+				if(player1.timeStamps.length > 2)
+				{
+					var deltaTime = player1.timeStamps[player1.timeStamps.length - 1] - player1.timeStamps[player1.timeStamps.length - 2];
+					if(situation == "left")
+						player1.lefttime += deltaTime;
+					else if (situation == "right")
+						player1.righttime += deltaTime;
+				}
 			}
+			
         });
 
         initGUIControllers(tracker);

@@ -1,6 +1,6 @@
 var lookback = 5; 
 
-var TECH_WINDOW = 400; //Note this is the tech window timing
+var TECH_WINDOW = 800; //Note this is the tech window timing
 var ROLL_WINDOW = 30; //Note this is the distance to register as a roll
 
 var inAnalysis = false;
@@ -21,9 +21,9 @@ function getRecoverType(player)
 	var latestReadings = getReadingsUpToLastKnockdown(player);
 	if(latestReadings)
 	{
-		var timeSinceKnockdown = latestReadings[1].time - latestReadings[0].time;
-		
 		var lastFrame = latestReadings.length-1;
+
+		var timeSinceKnockdown = latestReadings[lastFrame].time - latestReadings[0].time;
 		
         var tech = (timeSinceKnockdown < TECH_WINDOW);
         var inplace = (Math.abs(latestReadings[lastFrame-1].x - latestReadings[lastFrame].x) < ROLL_WINDOW);
@@ -87,13 +87,16 @@ function getSituation (player1, player2, stage_rects)
 	
 	if(player_status_1 != null)
 	{
-		//console.log("getting called");
-		//console.log(main_stage.width);
-		
+		/*
 		if(inCorner(player_status_1))
 			return "cornered";
 		if(centerStage(player_status_1))
 			return "onStage";
+		*/
+		if(player_status_1.x < 350)
+			return "left";
+		else
+			return "right";
 	}
 }
 
