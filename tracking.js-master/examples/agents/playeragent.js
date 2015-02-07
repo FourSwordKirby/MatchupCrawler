@@ -87,8 +87,20 @@ function makeRectangle(context, rect, p, state, RGB){
     }
 }
 
-function shouldAnalyze(n){
-    if (players[0].xPositions.length < n){
+function shouldAnalyze(inAnalysis){
+	
+	if (players[0].xPositions.length < 2){
+        return;
+    }
+	
+	var readings1 = getReadings(players[0], 1);
+    var readings2 = getReadings(players[1], 1);
+	
+	if (readings1[0].state == "knockdown" || inAnalysis){
+        return players[0];
+    }
+		
+/*    if (players[0].xPositions.length < n){
         return;
     }
 	var readings1 = getReadings(players[0], n);
@@ -99,4 +111,5 @@ function shouldAnalyze(n){
     if (readings2[0].state == "knockdown"){
         return players[1];
     }
+	*/
 }

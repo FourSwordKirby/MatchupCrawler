@@ -42,10 +42,13 @@
         var canvas = document.getElementById('canvas');
         var context = canvas.getContext('2d');
         
-        //Lookback this many states when deciding if analyze
-
-        
-        var leniency = 22;
+        //The variance in color we allow
+        var tolerance = 22;
+		
+		//Color of the stage + variable representing the stage rectangle
+		var stageRGB = [0,0,0];
+		var stage_rects = [];
+		
         //p1 pink p2 green
         var p1RGB = [220, 20, 230];
         var p1InvincRGB = [100, 0, 240]; 
@@ -63,32 +66,36 @@
         
         players = [player1, player2];
         
+		tracking.ColorTracker.registerColor('stage', function(r, g, b) {
+            return checkColorInBounds(stageRGB, r, g, b, tolerance);
+        });
+		
         tracking.ColorTracker.registerColor('p1', function(r, g, b) {
-            return checkColorInBounds(p1RGB, r, g, b, leniency);
+            return checkColorInBounds(p1RGB, r, g, b, tolerance);
         });
         
         tracking.ColorTracker.registerColor('knockdown1', function(r, g, b) {
-            return checkColorInBounds(p1KnockdownRGB, r, g, b, leniency);
+            return checkColorInBounds(p1KnockdownRGB, r, g, b, tolerance);
         });
         
         tracking.ColorTracker.registerColor('invincible1', function(r, g, b) {
-            return checkColorInBounds(p1InvincRGB, r, g, b, leniency);
+            return checkColorInBounds(p1InvincRGB, r, g, b, tolerance);
         });
       
         tracking.ColorTracker.registerColor('p2', function(r, g, b) {
-            return checkColorInBounds(p2RGB, r, g, b, leniency);
+            return checkColorInBounds(p2RGB, r, g, b, tolerance);
         });
         
         tracking.ColorTracker.registerColor('knockdown2', function(r, g, b) {
-            return checkColorInBounds(p2KnockdownRGB, r, g, b, leniency);
+            return checkColorInBounds(p2KnockdownRGB, r, g, b, tolerance);
         });
         
         tracking.ColorTracker.registerColor('invincible2', function(r, g, b) {
-            return checkColorInBounds(p2InvincRGB, r, g, b, leniency);
+            return checkColorInBounds(p2InvincRGB, r, g, b, tolerance);
         });
       
         
-        var tracker = new tracking.ColorTracker(['p1', 'p2', 'knockdown1', 'invincible1', 'knockdown2', 'invincible2']);
+        var tracker = new tracking.ColorTracker(['stage', 'p1', 'p2', 'knockdown1', 'invincible1', 'knockdown2', 'invincible2']);
         
         tracker.setMinDimension(10);
       
@@ -107,9 +114,18 @@
             var p2State;
             var p2Rect;
             var p2RectRGB = [0, 0, 0];
-                        
+            
             event.data.forEach(function(rect) {
-                if (rect.color === 'p1') {
+                
+				if(rect.color == 'stage'){
+				    makeRectangle(context, rect, 'stage', 'present', [255, 255, 255]);
+					stage_rects.push(rect);
+					delete tracker.colors[(tracker.colors.indexOf('stage'))];
+					console.log('stage obtained');
+					return;
+				}
+
+				if (rect.color === 'p1') {
                     if (rect.width * rect.height > maxP1RectArea){
                         maxP1RectArea = rect.width * rect.height;
                         p1State = "default";
@@ -117,7 +133,7 @@
                         p1RectRGB = p1RGB;
                     }
                 }
-                
+				
                 if (rect.color == 'knockdown1'){
                     if (rect.width * rect.height > maxP1RectArea){
                         maxP1RectArea = rect.width * rect.height;
@@ -172,10 +188,18 @@
                 playerUpdatePosition(player2, p2Rect, p2State);
                 makeRectangle(context, p2Rect, player2.name, p2State, p2RectRGB);
             }
-            if (analyzedPlayer = shouldAnalyze(lookback)){//yes this is assignment
+            if (analyzedPlayer = shouldAnalyze(inAnalysis)){//yes this is assignment
                 var msg;
+				inAnalysis = true;
+				
                 if (msg = getRecoverType(analyzedPlayer)){
                     console.log(msg);
+					
+					if(msg != "finished")
+					{
+						inAnalysis = false;
+					}
+					
                     if (msg == "techinplace"){
                         analyzedPlayer.techsinplace += 1;
                     }else if (msg == "techleft"){
@@ -191,6 +215,12 @@
                     }
                 }
             }
+			
+			var situation
+			if(situation = getSituation(player1, player2, stage_rects[0]))
+			{
+				console.log(situation);
+			}
         });
 
         initGUIControllers(tracker);
