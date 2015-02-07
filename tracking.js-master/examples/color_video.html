@@ -42,22 +42,30 @@
         var context = canvas.getContext('2d');
         
         var leniency = 30;
+        //p1 pink p2 green
+        var p1r = 220;
+        var p1g = 30;
+        var p1b = 220;
         
-        var p1r = 0;
-        var p1g = 255;
-        var p1b = 0;
+        var invinc1r = 100;
+        var invinc1g = 0; 
+        var invinc1b = 220;
         
-        var p2r = 255;
-        var p2g = 0;
-        var p2b = 255;
+        var knockdown1r = 140; //?
+        var knockdown1g = 140; //?
+        var knockdown1b = 40; //?
         
-        var invincr = 20; //?
-        var invincg = 20; //?
-        var invincb = 240;//?
+        var p2r = 225;
+        var p2g = 40;
+        var p2b = 225;
         
-        var knockdownr = 240; //?
-        var knockdowng = 150; //?
-        var knockdownb = 0; //?
+        var invinc2r = 10; 
+        var invinc2g = 90; 
+        var invinc2b = 130;
+
+        var knockdown2r = 140;
+        var knockdown2g = 180;
+        var knockdown2b = 40;
     
         var player1 = new Player;
         player1.name = "player1";
@@ -68,24 +76,32 @@
         players = [player1, player2];
         
         tracking.ColorTracker.registerColor('p1', function(r, g, b) {
-            console.log("p1 found");
             return checkColorInBounds(p1r, p1g, p1b, r, g, b, leniency);
         });
-
+        
+        tracking.ColorTracker.registerColor('knockdown1', function(r, g, b) {
+            return checkColorInBounds(knockdown1r, knockdown1g, knockdown1b, r, g, b, leniency);
+        });
+        
+        tracking.ColorTracker.registerColor('invincible1', function(r, g, b) {
+            return checkColorInBounds(invinc1r, invinc1g, invinc1b, r, g, b, leniency);
+        });
+        
+        tracking.ColorTracker.registerColor('knockdown2', function(r, g, b) {
+            return checkColorInBounds(knockdown2r, knockdown2g, knockdown2b, r, g, b, leniency);
+        });
+        
+        tracking.ColorTracker.registerColor('invincible2', function(r, g, b) {
+            return checkColorInBounds(invinc2r, invinc2g, invinc2b, r, g, b, leniency);
+        });
+      
         tracking.ColorTracker.registerColor('p2', function(r, g, b) {
             return checkColorInBounds(p2r, p2g, p2b, r, g, b, leniency);
         });
         
-        tracking.ColorTracker.registerColor('knockdown', function(r, g, b) {
-            return checkColorInBounds(knockdownr, knockdowng, knockdownb, r, g, b, leniency);
-        });
+        var tracker = new tracking.ColorTracker(['p1', 'p2', 'knockdown1', 'invincible1', 'knockdown2', 'invincible2']);
         
-        tracking.ColorTracker.registerColor('invincible', function(r, g, b) {
-            return checkColorInBounds(invincr, invincg, invincb, r, g, b, leniency);
-        });
-      
-        var tracker = new tracking.ColorTracker(['p1', 'p2', 'knockdown', 'invincible']);
-        tracker.setMinDimension(5);
+        tracker.setMinDimension(10);
       
         tracking.track('#video', tracker);
       
@@ -94,27 +110,54 @@
             context.clearRect(0, 0, canvas.width, canvas.height);
 
             event.data.forEach(function(rect) {
+                var p = ""
+                var state = ""
                 if (rect.color === 'p1') {
-                    playerUpdatePosition(player1, rect);
+                    playerUpdatePosition(player1, rect, 'default');
+                    p = "p1"
+                    state = "default"
                 }
+                
+                if (rect.color == 'knockdown1'){
+                    playerUpdatePosition(player1, rect, 'knockdown');
+                    
+                    p = "p1"
+                    state = "knockdown!"
+                }
+                
+                if (rect.color == 'invincible1'){
+                    playerUpdatePosition(player1, rect, 'invincible');
+                    p = "p1";
+                    state = "invincible!";
+                }
+                
                 if (rect.color == 'p2'){
-                    playerUpdatePosition(player2, rect);
+                    playerUpdatePosition(player2, rect, 'default');
+                    p = "p2";
+                    state = "default";
                 }
                 
-                if (rect.color == 'knockdown'){
-                    return;
+                if (rect.color == 'knockdown2'){
+                    playerUpdatePosition(player2, rect, 'knockdown');
+                    
+                    p = "p2";
+                    state = "knockdown";
                 }
                 
-                if (rect.color == 'invincible'){
-                    return;
+                if (rect.color == 'invincible2'){
+                    playerUpdatePosition(player2, rect, 'invincible');
+                    p = "p2";
+                    state = "invincible!";
                 }
 
                 context.strokeStyle = rect.color;
                 context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-                context.font = '11px Helvetica';
+                var font = 14;
+                context.font = font + 'px Helvetica';
                 context.fillStyle = "#fff";
                 context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
-                context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+                context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 11 + font);
+                context.fillText(p + " is " + state, rect.x + rect.width + 5, rect.y + 11 + 2 * font);
             });
         });
 
