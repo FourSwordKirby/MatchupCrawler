@@ -70,6 +70,9 @@ function makeRectangle(context, rect, p, state, RGB){
 }
 
 function shouldAnalyze(n){
+    if (players[0].xPositions.length < n){
+        return;
+    }
 	var readings1 = getReadings(players[0], n);
     var readings2 = getReadings(players[1], n);
     if (readings1[0].state == "knockdown"){
