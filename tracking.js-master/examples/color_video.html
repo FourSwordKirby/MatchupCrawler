@@ -10,6 +10,7 @@
   <script src="assets/stats.min.js"></script>
   <script src="assets/color_camera_gui.js"></script>
   <script src="agents/playeragent.js"></script>
+  <script src="agents/analysis.js"></script>
 
   <style>
   .demo-container {
@@ -40,6 +41,9 @@
     window.onload = function() {
         var canvas = document.getElementById('canvas');
         var context = canvas.getContext('2d');
+        
+        //Lookback this many states when deciding if analyze
+
         
         var leniency = 40;
         //p1 pink p2 green
@@ -168,7 +172,9 @@
                 playerUpdatePosition(player2, p2Rect, p2State);
                 makeRectangle(context, p2Rect, player2.name, p2State, p2RectRGB);
             }
-
+            if (analyzedPlayer = shouldAnalyze(lookback)){//yes this is assignment
+                analyzeKnockdown(analyzedPlayer);
+            }
         });
 
         initGUIControllers(tracker);

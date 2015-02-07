@@ -30,27 +30,6 @@ function playerUpdatePosition(player, rect, state){
         player.timeStamps.splice(0, 1);
         player.states.splice(0, 1);
     }
-	
-	//currently this implementation will not be able to register things after
-	//a no tech
-	var lastReading = getReadings(player, 1);
-	if(lastReading[0].state == "knockdown")
-	{
-		if(!inAnalysis)
-		{
-			inAnalysis = true;
-		}
-		else
-		{
-			var result = analyzeKnockdown(player);
-			if(result != null)
-			{
-				console.log(result);
-				if(result != "notech")
-					inAnalysis = false;
-			}
-		}
-	}
 }
 
 function checkColorInBounds(RGB, r2, g2, b2, leniency){
@@ -83,14 +62,20 @@ function makeRectangle(context, rect, p, state, RGB){
     context.strokeRect(rect.x, rect.y, rect.width, rect.height);
     var font = 14;
     context.font = font + 'px Helvetica';
+    context.lineWidth = 5;
     context.fillStyle = "#fff";
     context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
     context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 11 + font);
     context.fillText(p + " is " + state, rect.x + rect.width + 5, rect.y + 11 + 2 * font);
 }
 
-function determinePlayer(rect){//if needed
-    for (var i = 0; i < players.length; i++){
-        return;
+function shouldAnalyze(n){
+	var readings1 = getReadings(players[0], n);
+    var readings2 = getReadings(players[1], n);
+    if (readings1[0].state == "knockdown"){
+        return players[0];
+    }
+    if (readings2[0].state == "knockdown"){
+        return players[1];
     }
 }

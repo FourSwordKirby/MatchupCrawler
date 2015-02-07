@@ -1,3 +1,5 @@
+var lookback = 10; 
+
 function analyzeKnockdown(player) //Note that states is an array of the player's last states
 {
 	if(isTechInPlace(player))
@@ -32,8 +34,8 @@ function getLastKnockdown(readings)
 
 function isTechInPlace(player)
 {
-	var readings = getReadings(player, n)
-	var latestKnockdown = getLastKockdown(readings)
+	var readings = getReadings(player, lookback)
+	var latestKnockdown = getLastKnockdown(readings)
 	
 	if(latestKnockdown != null)
 	{
@@ -51,8 +53,8 @@ function isTechInPlace(player)
 
 function isTechLeft(player)
 {
-	var readings = getReadings(player, n)
-	var latestKnockdown = getLastKockdown(readings)
+	var readings = getReadings(player, lookback)
+	var latestKnockdown = getLastKnockdown(readings)
 	
 	if(latestKnockdown != null)
 	{
@@ -70,8 +72,8 @@ function isTechLeft(player)
 
 function isTechRight(player)
 {
-	var readings = getReadings(player, n)
-	var latestKnockdown = getLastKockdown(readings)
+	var readings = getReadings(player, lookback)
+	var latestKnockdown = getLastKnockdown(readings)
 	
 	if(latestKnockdown != null)
 	{
@@ -89,8 +91,8 @@ function isTechRight(player)
 
 function isNoTech(player)
 {
-	var readings = getReadings(player, n)
-	var latestKnockdown = getLastKockdown(readings)
+	var readings = getReadings(player, lookback)
+	var latestKnockdown = getLastKnockdown(readings)
 	
 	if(latestKnockdown != null)
 	{
@@ -105,8 +107,8 @@ function isNoTech(player)
 
 function isRegularGetup(player)
 {
-	var readings = getReadings(player, n)
-	var latestKnockdown = getLastKockdown(readings)
+	var readings = getReadings(player, lookback)
+	var latestKnockdown = getLastKnockdown(readings)
 	
 	if(latestKnockdown != null)
 	{
@@ -124,8 +126,8 @@ function isRegularGetup(player)
 
 function isRollLeft(player)
 {
-	var readings = getReadings(player, n)
-	var latestKnockdown = getLastKockdown(readings)
+	var readings = getReadings(player, lookback)
+	var latestKnockdown = getLastKnockdown(readings)
 	
 	if(latestKnockdown != null)
 	{
@@ -143,8 +145,8 @@ function isRollLeft(player)
 
 function isRollRight(player)
 {
-	var readings = getReadings(player, n)
-	var latestKnockdown = getLastKockdown(readings)
+	var readings = getReadings(player, lookback)
+	var latestKnockdown = getLastKnockdown(readings)
 	
 	if(latestKnockdown != null)
 	{
