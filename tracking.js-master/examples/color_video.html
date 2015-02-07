@@ -9,7 +9,7 @@
   <script src="../../dat-gui/build/dat.gui.min.js"></script>
   <script src="assets/stats.min.js"></script>
   <script src="assets/color_camera_gui.js"></script>
-  <script src="chris.js"></script>
+  <script src="agents/playeragent.js"></script>
 
   <style>
   .demo-container {
@@ -30,7 +30,7 @@
     <div class="demo-container">
       <div id="rectangle"></div>
       <video id="video" width="800" height="530" preload autoplay loop muted controls>
-        <source src="assets/pacman.mp4" type="video/mp4">
+        <source src="assets/testrun1.mp4" type="video/mp4">
       </video>
       <canvas id="canvas" width="800" height="500"></canvas>
     </div>
@@ -65,6 +65,8 @@
         var player2 = new Player;
         player2.name = "player2";
         
+        players = [player1, player2];
+        
         tracking.ColorTracker.registerColor('p1', function(r, g, b) {
             return checkColorInBounds(p1r, p1g, p1b, r, g, b, leniency);
         });
@@ -81,25 +83,28 @@
             return checkColorInBounds(invincr, invincg, invincb, r, g, b, leniency);
         });
       
-        var tracker = new tracking.ColorTracker(['p1', 'p2']);
+        var tracker = new tracking.ColorTracker(['p1', 'p2', 'knockdown', 'invincible']);
         tracker.setMinDimension(5);
       
         tracking.track('#video', tracker);
       
-        //player instances
-        var pacman = new Player;
-        pacman.name = "pacman";
-
 
         tracker.on('track', function(event) {
             context.clearRect(0, 0, canvas.width, canvas.height);
 
             event.data.forEach(function(rect) {
-                if (rect.color === 'yellow') {//pacman
-                    playerUpdatePosition(pacman, rect);
-                    console.log(pacman.xPositions);
+                if (rect.color === 'p1') {
+                    playerUpdatePosition(player1, rect);
                 }
-                if (rect.color == 'blue'){
+                if (rect.color == 'p2'){
+                    playerUpdatePosition(player2, rect);
+                }
+                
+                if (rect.color == 'knockdown'){
+                    return;
+                }
+                
+                if (rect.color == 'invincible'){
                     return;
                 }
 
