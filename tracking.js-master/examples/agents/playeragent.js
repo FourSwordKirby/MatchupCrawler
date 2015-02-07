@@ -11,10 +11,10 @@ function Player(type){
 }
 
 function Reading(type){
-    this.states = [];
-    this.x = [];
-    this.y = [];
-    this.time = [];
+    this.states;
+    this.x;
+    this.y;
+    this.time;
 }
 
 function playerUpdatePosition(player, rect, state){
