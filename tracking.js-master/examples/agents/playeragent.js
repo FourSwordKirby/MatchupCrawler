@@ -1,17 +1,23 @@
 var players = [];
 var positionMaxLength = 50;
-var inAnalysis = false;
 
 function Player(type){
     this.name = "";
     this.states = [];
     this.xPositions = [];
     this.yPositions = [];
-    this.timeStamps = []
+    this.timeStamps = [];
+    this.techsinplace = 0;
+    this.techsleft = 0;
+    this.techsright = 0;
+    this.regulars = 0;
+    this.rollsright = 0;
+    this.rollsleft = 0;
+    
 }
 
 function Reading(type){
-    this.states;
+    this.state;
     this.x;
     this.y;
     this.time;
@@ -46,7 +52,7 @@ function getReadings(player, n){
     }
     var readings = [];
     for (var i = 0; i < n; i++){
-        var newReading = new Reading;
+        var newReading = new Reading();
         newReading.state = player.states[arrayLength - n + i]
         newReading.x = player.xPositions[arrayLength - n + i]
         newReading.y = player.yPositions[arrayLength - n + i]

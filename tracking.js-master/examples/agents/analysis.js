@@ -1,12 +1,11 @@
 var lookback = 5; 
 
-var TECH_WINDOW = 500 //Note this is the tech window timing
-var ROLL_WINDOW = 40 //Note this is the distance to register as a roll
+var TECH_WINDOW = 700; //Note this is the tech window timing
+var ROLL_WINDOW = 40; //Note this is the distance to register as a roll
 
 function getReadingsUpToLastKnockdown(player)
 {
 	var readings = getReadings(player, lookback)
-	var latestKnockdown = null;
 	for(var i = readings.length - 2; i >= 0; i--)//want at least 2 readings
 	{
 		if(readings[i].state == "knockdown")
@@ -23,7 +22,6 @@ function getRecoverType(player)
 		var timeSinceKnockdown = latestReadings[1].time - latestReadings[0].time;
 		
         var tech = (timeSinceKnockdown < TECH_WINDOW);
-        var right = ((latestReadings[1].x  - latestReadings[0].x) > ROLL_WINDOW);
         var left = ((latestReadings[0].x  - latestReadings[1].x) > ROLL_WINDOW);
         var inplace = (Math.abs(latestReadings[1].x  - latestReadings[0].x) < ROLL_WINDOW);
 

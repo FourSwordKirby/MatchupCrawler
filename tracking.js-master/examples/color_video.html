@@ -177,6 +177,19 @@
                 var msg;
                 if (msg = getRecoverType(analyzedPlayer)){
                     console.log(msg);
+                    if (msg == "techinplace"){
+                        analyzedPlayer.techsinplace += 1;
+                    }else if (msg == "techleft"){
+                        analyzedPlayer.techsleft += 1;
+                    }else if (msg == "techright"){
+                        analyzedPlayer.techsright += 1;
+                    }else if (msg == "regulargetup"){
+                        analyzedPlayer.regulars += 1;
+                    }else if (msg == "rollleft"){
+                        analyzedPlayer.rollsright += 1;
+                    }else if (msg == "rollright"){
+                        analyzedPlayer.rollsleft += 1;
+                    }
                 }
             }
         });
