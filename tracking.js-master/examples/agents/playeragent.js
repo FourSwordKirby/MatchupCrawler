@@ -1,5 +1,6 @@
 var players = [];
 var positionMaxLength = 50;
+var inAnalysis = false;
 
 function Player(type){
     this.name = "";
@@ -9,7 +10,7 @@ function Player(type){
     this.timeStamps = []
 }
 
-function Readings(type){
+function Reading(type){
     this.states = [];
     this.x = [];
     this.y = [];
@@ -28,7 +29,28 @@ function playerUpdatePosition(player, rect, state){
         player.yPositions.splice(0, 1);
         player.timeStamps.splice(0, 1);
         player.states.splice(0, 1);
-    }   
+    }
+	
+	//currently this implementation will not be able to register things after
+	//a no tech
+	var lastReading = getReadings(player, 1);
+	if(lastReading[0].state == "knockdown")
+	{
+		if(!inAnalysis)
+		{
+			inAnalysis = true;
+		}
+		else
+		{
+			var result = analyzeKnockdown(player);
+			if(result != null)
+			{
+				console.log(result);
+				if(result != "notech")
+					inAnalysis = false;
+			}
+		}
+	}
 }
 
 function checkColorInBounds(RGB, r2, g2, b2, leniency){

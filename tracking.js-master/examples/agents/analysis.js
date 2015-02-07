@@ -1,10 +1,23 @@
-function Analysis(states, xPositions, yPositions) //Note that states is an array of the player's last states
+function analyzeKnockdown(player) //Note that states is an array of the player's last states
 {
-	
+	if(isTechInPlace(player))
+		return "techinplace"; 
+	if(isTechLeft(player))
+		return "techleft"; 
+	if(isTechRight(player))
+		return "techright"; 		
+	if(isNoTech(player))
+		return "notech"; 		
+	if(isRegularGetup(player))
+		return "getup"; 
+	if(isRollLeft(player))
+		return "rollleft"; 
+	if(isRollRight(player))
+		return "rollright"; 
 }
 
-var TECH_WINDOW = 50 //Note this is the tech window timing
-var ROLL_WINDOW = 0.2 //Note this is the tech window timing
+var TECH_WINDOW = 500 //Note this is the tech window timing
+var ROLL_WINDOW = 60 //Note this is the distance to register as a roll
 
 function getLastKnockdown(readings)
 {
@@ -17,9 +30,9 @@ function getLastKnockdown(readings)
 	return latestKnockdown;
 }
 
-function isTechInPlace()
+function isTechInPlace(player)
 {
-	var readings = player.getReadings(n)
+	var readings = getReadings(player, n)
 	var latestKnockdown = getLastKockdown(readings)
 	
 	if(latestKnockdown != null)
@@ -38,7 +51,7 @@ function isTechInPlace()
 
 function isTechLeft(player)
 {
-	var readings = player.getReadings(n)
+	var readings = getReadings(player, n)
 	var latestKnockdown = getLastKockdown(readings)
 	
 	if(latestKnockdown != null)
@@ -57,7 +70,7 @@ function isTechLeft(player)
 
 function isTechRight(player)
 {
-	var readings = player.getReadings(n)
+	var readings = getReadings(player, n)
 	var latestKnockdown = getLastKockdown(readings)
 	
 	if(latestKnockdown != null)
@@ -76,7 +89,7 @@ function isTechRight(player)
 
 function isNoTech(player)
 {
-	var readings = player.getReadings(n)
+	var readings = getReadings(player, n)
 	var latestKnockdown = getLastKockdown(readings)
 	
 	if(latestKnockdown != null)
@@ -92,7 +105,7 @@ function isNoTech(player)
 
 function isRegularGetup(player)
 {
-	var readings = player.getReadings(n)
+	var readings = getReadings(player, n)
 	var latestKnockdown = getLastKockdown(readings)
 	
 	if(latestKnockdown != null)
@@ -111,7 +124,7 @@ function isRegularGetup(player)
 
 function isRollLeft(player)
 {
-	var readings = player.getReadings(n)
+	var readings = getReadings(player, n)
 	var latestKnockdown = getLastKockdown(readings)
 	
 	if(latestKnockdown != null)
@@ -130,7 +143,7 @@ function isRollLeft(player)
 
 function isRollRight(player)
 {
-	var readings = player.getReadings(n)
+	var readings = getReadings(player, n)
 	var latestKnockdown = getLastKockdown(readings)
 	
 	if(latestKnockdown != null)
@@ -148,4 +161,4 @@ function isRollRight(player)
 }
 
 //implement later when we have attack hitboxes
-function isGetUpAttack()
+//function isGetUpAttack()
